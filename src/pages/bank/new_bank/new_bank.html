@@ -1,0 +1,74 @@
+<ion-header>
+    <ion-navbar>
+            <ion-title>
+                New Bank
+            </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <form #bankForm="ngForm" novalidate>
+        <ion-list no-lines>
+            <!--<ion-item>
+                <ion-label stacked color="primary">Bank Name</ion-label>
+                <ion-input [(ngModel)]="bank.bank_data" name="bank_data" type="text" #bank_data="ngModel" spellcheck="false" autocapitalize="off" required></ion-input>
+                <ion-select [(ngModel)]="bank.bank_data" name="bank_data" #bank_data="ngModel" [ngModelOptions]="{standalone: true}" required>
+                    <ion-option  value="123">123</ion-option>
+                    <ion-option  value="123">124</ion-option>
+                    <ion-option  value="123">125</ion-option>
+                    <ion-option  value="123">126</ion-option>
+                    <ion-option  value="123">127</ion-option>
+                </ion-select>
+            </ion-item>
+            <p [hidden]="bank_data.valid || submitted == false" color="danger" padding-left>
+                Bank Name is required
+            </p>-->
+            <ion-item>
+                <ion-label stacked color="primary">Bank Name</ion-label>
+                <ion-select [(ngModel)]="bank.bank_data" name="bank_data" [ngModelOptions]="{standalone: true}">
+                    <ion-option *ngFor="let each_bank of banks" [value]="each_bank">{{each_bank["ssl_organization"]}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked color="primary">Bank Rating</ion-label>
+                <ion-input [(ngModel)]="bank.bank_rating" name="bank_rating" type="number" #bank_rating="ngModel" spellcheck="false" autocapitalize="off" required></ion-input>
+            </ion-item>
+            <p [hidden]="bank_rating.valid || submitted == false" color="danger" padding-left>
+                bank_rating is required
+            </p>
+            
+            <ion-item>
+                <ion-label stacked color="primary">Account ID</ion-label>
+                <ion-input [(ngModel)]="bank.user_account_number" name="user_account_number" type="text" #user_account_number="ngModel" spellcheck="false" autocapitalize="off" required></ion-input>
+            </ion-item>
+            <p [hidden]="user_account_number.valid || submitted == false" color="danger" padding-left>
+                Account Number is required
+            </p>
+            
+            <ion-item>
+                <ion-label stacked color="primary">User Name</ion-label>
+                <ion-input [(ngModel)]="bank.bank_user_name" name="bank_user_name" type="text" #bank_user_name="ngModel" spellcheck="false" autocapitalize="off" required></ion-input>
+            </ion-item>
+            <p [hidden]="bank_user_name.valid || submitted == false" color="danger" padding-left>
+                User name is required
+            </p>
+            <ion-item>
+                <ion-label stacked color="primary">User Password</ion-label>
+                <ion-input [(ngModel)]="bank.bank_user_password" name="bank_user_password" type="password" #bank_user_password="ngModel" spellcheck="false" autocapitalize="off" required></ion-input>
+            </ion-item>
+            <p [hidden]="bank_user_password.valid || submitted == false" color="danger" padding-left>
+                User Password is required
+            </p>
+
+        </ion-list>
+
+        <ion-row responsive-sm>
+			<ion-col>
+				<button ion-button (click)="onAdd(bankForm)" type="submit" block>Submit</button>
+			</ion-col>
+			<ion-col>
+				<button ion-button (click)="onCancel()" color="light" block>Cancel</button>
+			</ion-col>
+		</ion-row>
+    </form>
+</ion-content>

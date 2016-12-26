@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Transaction History</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="outer-content speaker-list">
+  <ion-card *ngFor="let transaction of transaction_history" class="speaker-card">
+
+    <ion-card-header>
+      <button ion-item detail-none (click)="goToSpeakerDetail(speaker)">
+        {{transaction["TRNTYPE"]}}
+      </button>
+    </ion-card-header>
+
+    <ion-card-content class="outer-content">
+      <ion-list>
+        <button ion-item>
+          <h3>{{transaction["DTPOSTED"]}}</h3>
+        </button>
+
+        <button ion-item>
+          <h3>{{transaction["DTAVAIL"]}}</h3>
+        </button>
+
+        <button ion-item>
+          <h3>{{transaction["TRNAMT"]}}</h3>
+        </button>
+
+        <button ion-item>
+          <h3>{{transaction["FITID"]}}</h3>
+        </button>
+
+        <button ion-item>
+          <h3>{{transaction["NAME"]}}</h3>
+        </button>
+
+        <button ion-item>
+          <h3>{{transaction["MEMO"]}}</h3>
+        </button>
+      </ion-list>
+    </ion-card-content>
+
+    <ion-row no-padding>
+      <ion-col>
+        <button ion-button clear small color="primary" icon-left (click)="goToSpeakerTwitter(speaker)">
+          <ion-icon name="logo-twitter"></ion-icon>
+          Tweet
+        </button>
+      </ion-col>
+      <ion-col text-center>
+        <button ion-button clear small color="primary" icon-left (click)="openSpeakerShare(speaker)">
+          <ion-icon name='share-alt'></ion-icon>
+         Share
+        </button>
+      </ion-col>
+      <ion-col text-right>
+        <button ion-button clear small color="primary" icon-left (click)="openContact(speaker)">
+          <ion-icon name='chatboxes'></ion-icon>
+          Contact
+        </button>
+      </ion-col>
+    </ion-row>
+
+  </ion-card>
+</ion-content>

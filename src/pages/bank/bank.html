@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-navbar no-border-bottom>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <span color="secondary" end>{{username}}</span>
+    <ion-buttons end>
+      <!--<button ion-button icon-only (click)="presentFilter()">
+        <ion-icon ios="ios-options-outline" md="md-options"></ion-icon>
+      </button>-->
+      <button ion-button icon-only (click)="changeNotification()">
+        <ion-icon name="setting" class="ion-ios-settings" isActive="false"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    
+  </ion-navbar>
+
+  <ion-toolbar no-border-top>
+    <ion-searchbar color="primary"
+                   [(ngModel)]="queryText"
+                   (ionInput)="updateBank()"
+                   placeholder="Search">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <button ion-button class="add-bank" (click)="addBank()">
+    <ion-icon class="ion-md-add" isActive="false">    Bank</ion-icon> 
+  </button>
+  <ion-list #bankList >
+
+    <ion-item-sliding *ngFor="let bank of banks | search: queryText" #slidingItem [attr.track]="bank.bank_name | lowercase" [hidden]="bank.hide">
+
+      <button ion-item (click)="goToBankDetail(bank)">
+        <!--<h3>{{bank.bank_data.url}}</h3>-->
+        <span>
+          {{bank.bank_rating}}
+        </span>
+      </button>
+
+      <ion-item-options>
+        <button ion-button color="favorite" (click)="addFavorite(slidingItem, bank)" *ngIf="segment === 'all'">
+          Favorite
+        </button>
+        <button ion-button color="danger" (click)="removeFavorite(slidingItem, bank, 'Remove Favorite')" *ngIf="segment === 'favorites'">
+          Remove
+        </button>
+      </ion-item-options>
+
+    </ion-item-sliding>
+
+  </ion-list>
+
+  <ion-list-header [hidden]="banks.length > 0">
+      No Banks Found
+  </ion-list-header>
+
+  <ion-fab bottom right #fab>
+    <button ion-fab><ion-icon name="share"></ion-icon></button>
+  </ion-fab>
+
+
+</ion-content>
