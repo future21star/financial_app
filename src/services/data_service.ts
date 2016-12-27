@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';  
-import { Http, Headers, Response, RequestOptions } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 
 import 'rxjs/add/operator/map';
 let deployed_server_url = "https://server-for-financial-app-warzi117.c9users.io";

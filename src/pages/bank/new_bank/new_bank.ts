@@ -35,8 +35,10 @@ export class NewBankPage {
   }
 
   onAdd(bankForm) {
+    // console.log(this.bank);
     this.submitted = true;
     this.userData.getUsername().then(data => {
+      console.log("new bank new user", data);
       this.bank.user_id = JSON.parse(data)._id;
       console.log(this.bank);
       this.dataService.new_bank(this.bank)

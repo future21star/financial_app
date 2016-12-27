@@ -61,9 +61,10 @@ export class BankPage {
 
   updateBank() {
     this.storage.get('username').then(data => {
+ 
       if (data) {
         this.username = JSON.parse(data)["username"];
-
+        console.log("username", data);
         let user_id = JSON.parse(data)._id;
         this.dataService.get_banks_for_user(user_id).subscribe( data => {
           this.banks = data;

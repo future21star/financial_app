@@ -6,7 +6,6 @@ import { NavController } from 'ionic-angular';
 import { UserData } from '../../providers/user-data';
 import { DataService } from '../../services/data_service'
 
-import { LoginPage } from '../login/login';
 import { NewBankPage } from '../bank/new_bank/new_bank'
 
 @Component({

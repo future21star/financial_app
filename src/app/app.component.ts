@@ -7,9 +7,7 @@ import { Storage } from '@ionic/storage';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
-import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
-import { BankDetailPage } from '../pages/bank/bank-detail/bank-detail';
 import { SignupPage } from '../pages/signup/signup';
 import { NotificationPage } from '../pages/notification/notification'
 import { TabsPage } from '../pages/tabs/tabs';
@@ -101,30 +99,30 @@ export class MyApp {
       StatusBar.styleDefault();
       Splashscreen.hide();
             
-      var push = Push.init({
-        android: {
-          // senderID: "financialapp-153501" //GCM
-          senderID: "795708479781"
-        },
-        ios: {
-          alert: "true",
-          badge: true,
-          sound: 'false'
-        },
-        windows: {}
-      });
-      push.on('registration', (data) => {
-        console.log(data.registrationId);
-        this.userData.registerID(data.registrationId);
-        alert(data.registrationId.toString());
-      });
-      push.on('notification', (data) => {
-        console.log(data);
-        alert("Hi, Am a push notification");
-      });
-      push.on('error', (e) => {
-        console.log(e.message);
-      });
+      // var push = Push.init({
+      //   android: {
+      //     // senderID: "financialapp-153501" //GCM
+      //     senderID: "795708479781"
+      //   },
+      //   ios: {
+      //     alert: "true",
+      //     badge: true,
+      //     sound: 'false'
+      //   },
+      //   windows: {}
+      // });
+      // push.on('registration', (data) => {
+      //   console.log(data.registrationId);
+      //   this.userData.registerID(data.registrationId);
+      //   alert(data.registrationId.toString());
+      // });
+      // push.on('notification', (data) => {
+      //   console.log(data);
+      //   alert("Hi, Am a push notification");
+      // });
+      // push.on('error', (e) => {
+      //   console.log(e.message);
+      // });
       // this.userData.registerID("123456");
     });
   }
