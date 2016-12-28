@@ -7,9 +7,7 @@ import { Storage } from '@ionic/storage';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
-import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
-import { BankDetailPage } from '../pages/bank/bank-detail/bank-detail';
 import { SignupPage } from '../pages/signup/signup';
 import { NotificationPage } from '../pages/notification/notification'
 import { TabsPage } from '../pages/tabs/tabs';

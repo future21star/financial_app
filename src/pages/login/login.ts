@@ -31,12 +31,15 @@ export class LoginPage {
 
     if (form.valid) {
       this.userData.getRegisterID().then(value => {
-        console.log("register id", value);
-        this.login.register_id = value;
+        // console.log("register id", value);
+        console.log("register id", "");
+        this.login.register_id = "";
+        
         this.dataService.login(this.login)
           .subscribe(
             data => {
                 let user = JSON.parse(data["_body"]);
+                console.log("logged in user", user);
                 if (user)
                 {
                     this.userData.login(user).then(() => {
