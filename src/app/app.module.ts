@@ -12,6 +12,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { BankPage } from '../pages/bank/bank';
 import { BankDetailPage } from '../pages/bank/bank-detail/bank-detail';
 import { NewBankPage } from '../pages/bank/new_bank/new_bank';
+import { MfaQuestionPage } from '../pages/bank/mfa_question/mfa_question'
 import { TabsPage } from '../pages/tabs/tabs';
 import { NotificationPage } from '../pages/notification/notification'
 
@@ -30,6 +31,7 @@ import { SearchPipe } from '../pipes/search.pipe';
     SignupPage,
     BankPage,
     BankDetailPage,
+    MfaQuestionPage,
     NewBankPage,
     TabsPage,
     NotificationPage,
@@ -49,6 +51,7 @@ import { SearchPipe } from '../pipes/search.pipe';
     SignupPage,    
     BankPage,
     BankDetailPage,
+    MfaQuestionPage,
     NewBankPage,
     TabsPage,
     NotificationPage

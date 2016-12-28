@@ -39,7 +39,7 @@ export class LoginPage {
                 let user = JSON.parse(data["_body"]);
                 if (user)
                 {
-                    this.userData.login(user[0]).then(() => {
+                    this.userData.login(user).then(() => {
                       this.navCtrl.push(TabsPage);
                     });
                 }

@@ -101,30 +101,30 @@ export class MyApp {
       StatusBar.styleDefault();
       Splashscreen.hide();
             
-      var push = Push.init({
-        android: {
-          // senderID: "financialapp-153501" //GCM
-          senderID: "795708479781"
-        },
-        ios: {
-          alert: "true",
-          badge: true,
-          sound: 'false'
-        },
-        windows: {}
-      });
-      push.on('registration', (data) => {
-        console.log(data.registrationId);
-        this.userData.registerID(data.registrationId);
-        alert(data.registrationId.toString());
-      });
-      push.on('notification', (data) => {
-        console.log(data);
-        alert("Hi, Am a push notification");
-      });
-      push.on('error', (e) => {
-        console.log(e.message);
-      });
+      // var push = Push.init({
+      //   android: {
+      //     // senderID: "financialapp-153501" //GCM
+      //     senderID: "795708479781"
+      //   },
+      //   ios: {
+      //     alert: "true",
+      //     badge: true,
+      //     sound: 'false'
+      //   },
+      //   windows: {}
+      // });
+      // push.on('registration', (data) => {
+      //   console.log(data.registrationId);
+      //   this.userData.registerID(data.registrationId);
+      //   alert(data.registrationId.toString());
+      // });
+      // push.on('notification', (data) => {
+      //   console.log(data);
+      //   alert("Hi, Am a push notification");
+      // });
+      // push.on('error', (e) => {
+      //   console.log(e.message);
+      // });
       // this.userData.registerID("123456");
     });
   }

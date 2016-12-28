@@ -12,35 +12,32 @@
 
     <ion-card-header>
       <button ion-item detail-none (click)="goToSpeakerDetail(speaker)">
-        {{transaction["TRNTYPE"]}}
+        {{transaction["_account"]}}
       </button>
     </ion-card-header>
 
     <ion-card-content class="outer-content">
       <ion-list>
         <button ion-item>
-          <h3>{{transaction["DTPOSTED"]}}</h3>
+          <h3>id: {{transaction["_id"]}}</h3>
         </button>
 
         <button ion-item>
-          <h3>{{transaction["DTAVAIL"]}}</h3>
+          <h3>amount: {{transaction["amount"]}}</h3>
         </button>
 
         <button ion-item>
-          <h3>{{transaction["TRNAMT"]}}</h3>
+          <h3>date: {{transaction["date"]}}</h3>
         </button>
 
         <button ion-item>
-          <h3>{{transaction["FITID"]}}</h3>
+          <h3>name: {{transaction["name"]}}</h3>
         </button>
 
         <button ion-item>
-          <h3>{{transaction["NAME"]}}</h3>
+          <h3>pending: {{transaction["pending"]}}</h3>
         </button>
 
-        <button ion-item>
-          <h3>{{transaction["MEMO"]}}</h3>
-        </button>
       </ion-list>
     </ion-card-content>
 

@@ -1,0 +1,30 @@
+<ion-header>
+    <ion-navbar>
+            <ion-title>
+                MFA Question
+            </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <form #bankForm="ngForm" novalidate>
+        <ion-list no-lines>
+            <ion-item>
+                <ion-label stacked color="primary">{{question}}</ion-label>
+                <ion-input [(ngModel)]="answer" name="answer" type="text" #answer_model="ngModel" spellcheck="false" autocapitalize="off" required></ion-input>
+            </ion-item>
+            <p [hidden]="answer_model.valid || submitted == false" color="danger" padding-left>
+                Answer is required
+            </p>
+        </ion-list>
+
+        <ion-row responsive-sm>
+			<ion-col>
+				<button ion-button (click)="onSubmit()" type="submit" block>Submit</button>
+			</ion-col>
+			<ion-col>
+				<button ion-button (click)="onCancel()" color="light" block>Cancel</button>
+			</ion-col>
+		</ion-row>
+    </form>
+</ion-content>

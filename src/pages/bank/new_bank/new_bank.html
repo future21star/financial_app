@@ -25,26 +25,11 @@
             </p>-->
             <ion-item>
                 <ion-label stacked color="primary">Bank Name</ion-label>
-                <ion-select [(ngModel)]="bank.bank_data" name="bank_data" [ngModelOptions]="{standalone: true}">
-                    <ion-option *ngFor="let each_bank of banks" [value]="each_bank">{{each_bank["ssl_organization"]}}</ion-option>
+                <ion-select *ngIf="banks.length > 0" [(ngModel)]="bank.bank_data" name="bank_data" [ngModelOptions]="{standalone: true}">
+                    <ion-option *ngFor="let each_bank of banks" [value]="each_bank">{{each_bank["name"]}}</ion-option>
                 </ion-select>
+                <ion-label stacked *ngIf="banks.length === 0"> Loading... </ion-label>
             </ion-item>
-            <ion-item>
-                <ion-label stacked color="primary">Bank Rating</ion-label>
-                <ion-input [(ngModel)]="bank.bank_rating" name="bank_rating" type="number" #bank_rating="ngModel" spellcheck="false" autocapitalize="off" required></ion-input>
-            </ion-item>
-            <p [hidden]="bank_rating.valid || submitted == false" color="danger" padding-left>
-                bank_rating is required
-            </p>
-            
-            <ion-item>
-                <ion-label stacked color="primary">Account ID</ion-label>
-                <ion-input [(ngModel)]="bank.user_account_number" name="user_account_number" type="text" #user_account_number="ngModel" spellcheck="false" autocapitalize="off" required></ion-input>
-            </ion-item>
-            <p [hidden]="user_account_number.valid || submitted == false" color="danger" padding-left>
-                Account Number is required
-            </p>
-            
             <ion-item>
                 <ion-label stacked color="primary">User Name</ion-label>
                 <ion-input [(ngModel)]="bank.bank_user_name" name="bank_user_name" type="text" #bank_user_name="ngModel" spellcheck="false" autocapitalize="off" required></ion-input>

@@ -6,6 +6,8 @@ import { DataService } from '../../../services/data_service';
 import { UserData } from '../../../providers/user-data';
 
 import { TabsPage } from '../../tabs/tabs';
+import { MfaQuestionPage } from '../mfa_question/mfa_question'
+
 @Component({
   selector: 'page-new-bank',
   templateUrl: 'new_bank.html'
@@ -23,7 +25,7 @@ export class NewBankPage {
     public userData: UserData
 ) {
     this.session = navParams.data;
-    this.dataService.getBanks().subscribe(
+    this.dataService.getAvailableFinancialInstitutions().subscribe(
       data => {
         this.banks = data;
         console.log(this.banks);
@@ -42,7 +44,13 @@ export class NewBankPage {
       this.dataService.new_bank(this.bank)
       .subscribe(
         data => {
-          this.navCtrl.push(TabsPage);
+          console.log("add bank-------------------------",data);
+          if (data.status === 201) {
+            // ---------------------- case for mfa question --------------------------
+            this.navCtrl.push(MfaQuestionPage, JSON.parse(data["_body"]));
+          } else {
+            this.navCtrl.push(TabsPage);
+          }
         },
         err => {
           console.log("error");

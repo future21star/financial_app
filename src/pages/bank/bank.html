@@ -35,7 +35,7 @@
     <ion-item-sliding *ngFor="let bank of banks | search: queryText" #slidingItem [attr.track]="bank.bank_name | lowercase" [hidden]="bank.hide">
 
       <button ion-item (click)="goToBankDetail(bank)">
-        <!--<h3>{{bank.bank_data.url}}</h3>-->
+        <h3>{{bank.bank_data["name"]}}</h3>
         <span>
           {{bank.bank_rating}}
         </span>

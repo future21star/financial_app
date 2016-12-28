@@ -6,17 +6,22 @@ import { InAppBrowser } from 'ionic-native';
 
 import { ConferenceData } from '../../../providers/conference-data';
 import { DataService } from '../../../services/data_service';
-
+import { TabsPage } from '../../tabs/tabs';
 
 @Component({
-  selector: 'page-bank-detail',
-  templateUrl: 'bank-detail.html'
+  selector: 'mfa_question',
+  templateUrl: 'mfa_question.html'
 })
-export class BankDetailPage {
+export class MfaQuestionPage {
   actionSheet: ActionSheet;
   speakers = [];
   bank: any;
+  mfa: any;
   transaction_history: any;
+  question: string;
+  answer: string;
+  access_token: string;
+  submitted: boolean = false;
 
   constructor(
     public actionSheetCtrl: ActionSheetController, 
@@ -26,20 +31,37 @@ export class BankDetailPage {
     public dataService: DataService,    
     public navParams: NavParams) 
   {
-    this.bank = navParams.data;
+    this.mfa = navParams.data.mfa;
+    this.question = this.mfa.mfa[0].question;
+    this.access_token = this.mfa.access_token;
+    console.log("-------------------mfa question----------------------", this.question, this.access_token);
   }
 
   ionViewDidLoad() {
-    this.confData.getSpeakers().subscribe(speakers => {
-      this.speakers = speakers;
-    });
-    this.dataService.getTransactionHistory(this.bank.access_token).subscribe(
-      data => {
-        this.transaction_history = data;
-        console.log("transaction history", data);
-    });
+
   }
 
+  onSubmit() {
+      this.submitted = true;
+      this.dataService.sendMFA(this.access_token, this.answer)
+      .subscribe(
+          data => {
+            console.log("second mfa question", data);
+            if (data.status === 201) {
+                // ---------------------- case for mfa question --------------------------
+                this.navCtrl.push(MfaQuestionPage, JSON.parse(data["_body"]));
+            } else {
+                this.navCtrl.push(TabsPage);
+            }
+          },
+          error => {
+
+      });
+  }
+
+  onCancel() {
+      this.navCtrl.push(TabsPage);
+  }
   goToSessionDetail(session) {
     // this.navCtrl.push(SessionDetailPage, session);
   }
