@@ -10,6 +10,7 @@ import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { BankPage } from '../pages/bank/bank';
+import { GmapBankPage } from '../pages/bank/gmap-bank/gmap-bank';
 import { BankDetailPage } from '../pages/bank/bank-detail/bank-detail';
 import { NewBankPage } from '../pages/bank/new_bank/new_bank';
 import { MfaQuestionPage } from '../pages/bank/mfa_question/mfa_question'
@@ -30,6 +31,7 @@ import { SearchPipe } from '../pipes/search.pipe';
     LoginPage,
     SignupPage,
     BankPage,
+    GmapBankPage,
     BankDetailPage,
     MfaQuestionPage,
     NewBankPage,
@@ -50,6 +52,7 @@ import { SearchPipe } from '../pipes/search.pipe';
     LoginPage,
     SignupPage,    
     BankPage,
+    GmapBankPage,
     BankDetailPage,
     MfaQuestionPage,
     NewBankPage,
