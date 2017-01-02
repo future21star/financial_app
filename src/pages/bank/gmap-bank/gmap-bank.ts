@@ -65,21 +65,15 @@ export class GmapBankPage {
   }
 
   loadMap(){ 
-    Geolocation.getCurrentPosition().then((position) => {
-      console.log("load map", position);
-      let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    let latLng = new google.maps.LatLng(-34.9290, 138.6010);
  
-      let mapOptions = {
-        center: latLng,
-        zoom: 15,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      }
+    let mapOptions = {
+      center: latLng,
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
  
-      this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
- 
-    }, (err) => {
-      console.log(err);
-    });
+    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
   }
 
   addMarker(){
