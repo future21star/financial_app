@@ -1,227 +1,201 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef  } from '@angular/core';
+import { NavParams } from 'ionic-angular';
 
-import { AlertController, App, ItemSliding, List, ModalController, NavController, LoadingController } from 'ionic-angular';
-
-import { Geolocation } from 'ionic-native';
-/*
-  To learn how to use third party libs in an
-  Ionic app check out our docs here: http://ionicframework.com/docs/v2/resources/third-party-libs/
-*/
-// import moment from 'moment';
-
-import { BankDetailPage } from '../bank-detail/bank-detail';
-import { NewBankPage } from '../new_bank/new_bank';
-import { NotificationPage } from '../../notification/notification'
-// import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
-// import { BankDetailPage } from '../bank-detail/bank-detail';
+import { ActionSheet, ActionSheetController, Config, NavController } from 'ionic-angular';
+import { InAppBrowser } from 'ionic-native';
 
 import { ConferenceData } from '../../../providers/conference-data';
-import { UserData } from '../../../providers/user-data';
-
 import { DataService } from '../../../services/data_service';
-import { Storage } from '@ionic/storage';
+
+import { Platform } from 'ionic-angular';
 
 declare var google;
 
 @Component({
-  selector: 'gmap-bank',
+  selector: 'gmap-bank-detail',
   templateUrl: 'gmap-bank.html'
 })
 export class GmapBankPage {
-  // the list is a child of the schedule page
-  // @ViewChild('scheduleList') gets a reference to the list
-  // with the variable #scheduleList, `read: List` tells it to return
-  // the List and not a reference to the element
-  @ViewChild('BankList', { read: List }) bankList: List;
-  @ViewChild('map') mapElement: ElementRef;
+  actionSheet: ActionSheet;
+  speakers = [];
+  bank: any;
+  transaction_history: any;
+  @ViewChild('mapCanvas') mapElement: ElementRef;
   map: any;
 
-  dayIndex = 0;
-  queryText = '';
-  segment = 'all';
-  excludeTracks = [];
-  shownBanks: any = [];
-  groups = [];
-  confDate: string;
-  banks = [];
-  username = "";
-
   constructor(
-    public alertCtrl: AlertController,
-    public app: App,
-    public loadingCtrl: LoadingController,
-    public modalCtrl: ModalController,
-    public navCtrl: NavController,
-    public confData: ConferenceData,
-    public userData: UserData,
-    public dataService: DataService,
-    public storage: Storage
-  ) {}
+    public actionSheetCtrl: ActionSheetController, 
+    public navCtrl: NavController, 
+    public confData: ConferenceData, 
+    public config: Config,
+    public dataService: DataService,    
+    public navParams: NavParams,
+    public platform: Platform) 
+  {
+    this.bank = navParams.data;
+  }
 
   ionViewDidLoad() {
-    this.app.setTitle('Bank');
-    this.updateBank();
-    this.loadMap();
-  }
-
-  loadMap(){ 
-    Geolocation.getCurrentPosition().then((position) => {
-      console.log("load map", position);
-      let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
- 
-      let mapOptions = {
-        center: latLng,
-        zoom: 15,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      }
- 
-      this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
- 
-    }, (err) => {
-      console.log(err);
+    this.confData.getSpeakers().subscribe(speakers => {
+      this.speakers = speakers;
+    });
+    this.dataService.getTransactionHistory(this.bank.access_token).subscribe(
+      data => {
+        this.transaction_history = data;
+        this.loadBank();
+        console.log("transaction history", data);
     });
   }
 
-  addMarker(){
+  loadBank() {
+    // let latLng = new google.maps.LatLng(-34.9290, 138.6010);
  
-    let marker = new google.maps.Marker({
-        map: this.map,
-        animation: google.maps.Animation.DROP,
-        position: this.map.getCenter()
+    // let mapOptions = {
+    //   center: latLng,
+    //   zoom: 15,
+    //   mapTypeId: google.maps.MapTypeId.ROADMAP
+    // }
+ 
+    // this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+
+    // let mapEle = this.mapElement.nativeElement;
+    //   let map = new google.maps.Map(mapEle, {
+    //     center: {"lat":43.074395,"lng":-89.381056},
+    //     zoom: 16
+    //   });
+    // for (let transaction of this.transaction_history) {
+    //   let pos = {};
+    //   if (transaction["meta"]["location"]["coordinates"]) {
+    //     let lat = transaction["meta"]["location"]["coordinates"]["lat"];
+    //     let lon = transaction["meta"]["location"]["coordinates"]["lon"];
+    //     pos = {
+    //       "lat": lat,
+    //       "lng": lon
+    //     };
+    //     let marker = new google.maps.Marker({
+    //       map: this.map,
+    //       animation: google.maps.Animation.DROP,
+    //       position: pos
+    //     });
+      
+    //     let content = "<h4>Information!</h4>";          
+      
+    //     this.addInfoWindow(marker, content);
+    //   }
+
+    // }
+    this.confData.getMap().subscribe(mapData => {
+      let mapEle = this.mapElement.nativeElement;
+      console.log("map center pos", mapData.find(d => d.center));
+      let center_pos = {"lat": 43.071584, "lng": -89.3801};
+      let map = new google.maps.Map(mapEle, {
+        // center: mapData.find(d => d.center),
+        center: center_pos,
+        zoom: 16
+      });
+      console.log("-----------------------------mapData---------------------------", mapData);
+      this.transaction_history.forEach(markerData => {
+        if (markerData["meta"]["location"]["coordinates"]){
+          let infoWindow = new google.maps.InfoWindow({
+            content: `<h5>${markerData["_account"]}</h5>`
+          });
+          let lat = markerData["meta"]["location"]["coordinates"]["lat"];
+          let lon = markerData["meta"]["location"]["coordinates"]["lon"];
+          let pos = {
+            "lat": lat,
+            "lng": lon
+          };
+          let marker = new google.maps.Marker({
+            position: pos,
+            map: map,
+            title: markerData["_account"]
+          });
+
+          marker.addListener('click', () => {
+            infoWindow.open(map, marker);
+          });
+        }
+      });
+
+      google.maps.event.addListenerOnce(map, 'idle', () => {
+        mapEle.classList.add('show-map');
+      });
     });
-
-    let content = "<h4>Information!</h4>";          
-
-    this.addInfoWindow(marker, content);
-
   }
 
   addInfoWindow(marker, content){
- 
-    let infoWindow = new google.maps.InfoWindow({
-    content: content
-    });
-
-    google.maps.event.addListener(marker, 'click', () => {
-    infoWindow.open(this.map, marker);
-    });
-
-  }
-  updateBank() {
-    this.storage.get('username').then(data => {
- 
-      if (data) {
-        this.username = JSON.parse(data)["username"];
-        console.log("username", data);
-        let user_id = JSON.parse(data)._id;
-        this.dataService.get_banks_for_user(user_id).subscribe( data => {
-          this.banks = data;
-          console.log(this.banks);
-        });
-      }
-    });
-  }
-
-  presentFilter() {
-    // let modal = this.modalCtrl.create(BankFilterPage, this.excludeTracks);
-    // modal.present();
-
-    // modal.onWillDismiss((data: any[]) => {
-    //   if (data) {
-    //     this.excludeTracks = data;
-    //     this.updateBank();
-    //   }
-    // });
-  }
-
-  addBank() {
-    this.navCtrl.push(NewBankPage);
-  }
   
-  goToBankDetail(bankData) {
-    // go to the bank detail page
-    // and pass in the bank data
-    this.navCtrl.push(BankDetailPage, bankData);
+    let infoWindow = new google.maps.InfoWindow({
+      content: content
+    });
+  
+    google.maps.event.addListener(marker, 'click', () => {
+      infoWindow.open(this.map, marker);
+    });
+  
   }
 
-  addFavorite(slidingItem: ItemSliding, bankData) {
-
-    if (this.userData.hasFavorite(bankData.name)) {
-      // woops, they already favorited it! What shall we do!?
-      // prompt them to remove it
-      this.removeFavorite(slidingItem, bankData, 'Favorite already added');
-    } else {
-      // remember this bank as a user favorite
-      this.userData.addFavorite(bankData.name);
-
-      // create an alert instance
-      let alert = this.alertCtrl.create({
-        title: 'Favorite Added',
-        buttons: [{
-          text: 'OK',
-          handler: () => {
-            // close the sliding item
-            slidingItem.close();
-          }
-        }]
-      });
-      // now present the alert on top of all other content
-      alert.present();
-    }
-
+  goToSessionDetail(session) {
+    // this.navCtrl.push(SessionDetailPage, session);
   }
 
-  removeFavorite(slidingItem: ItemSliding, bankData, title) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      message: 'Would you like to remove this bank from your favorites?',
+  goToSpeakerDetail(speakerName: any) {
+    // this.navCtrl.push(SpeakerDetailPage, speakerName);
+  }
+
+  goToSpeakerTwitter(speaker) {
+    new InAppBrowser(`https://twitter.com/${speaker.twitter}`, '_blank');
+  }
+
+  openSpeakerShare(speaker) {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Share ' + speaker.name,
       buttons: [
         {
-          text: 'Cancel',
-          handler: () => {
-            // they clicked the cancel button, do not remove the bank
-            // close the sliding item and hide the option buttons
-            slidingItem.close();
+          text: 'Copy Link',
+          handler: ($event) => {
+            console.log('Copy link clicked on https://twitter.com/' + speaker.twitter);
+            if (window['cordova'] && window['cordova'].plugins.clipboard) {
+              window['cordova'].plugins.clipboard.copy('https://twitter.com/' + speaker.twitter);
+            }
           }
         },
         {
-          text: 'Remove',
-          handler: () => {
-            // they want to remove this bank from their favorites
-            this.userData.removeFavorite(bankData.name);
-            this.updateBank();
+          text: 'Share via ...'
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    });
 
-            // close the sliding item and hide the option buttons
-            slidingItem.close();
+    actionSheet.present();
+  }
+
+  openContact(speaker) {
+    let mode = this.config.get('mode');
+
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Contact ' + speaker.name,
+      buttons: [
+        {
+          text: `Email ( ${speaker.email} )`,
+          icon: mode !== 'ios' ? 'mail' : null,
+          handler: () => {
+            window.open('mailto:' + speaker.email);
+          }
+        },
+        {
+          text: `Call ( ${speaker.phone} )`,
+          icon: mode !== 'ios' ? 'call' : null,
+          handler: () => {
+            window.open('tel:' + speaker.phone);
           }
         }
       ]
     });
-    // now present the alert on top of all other content
-    alert.present();
-  }
 
-  openSocial(network, fab) {
-    let loading = this.loadingCtrl.create({
-      content: `Posting to ${network}`,
-      duration: (Math.random() * 1000) + 500
-    });
-    loading.onWillDismiss(() => {
-      fab.close();
-    });
-    loading.present();
-  }
-
-  changeNotification() {
-    // this.navCtrl.push(NotificationPage);
-    let modal = this.modalCtrl.create(NotificationPage);
-    modal.present();
-
-    // modal.onWillDismiss((data: any[]) => {
-    //   if (data) {
-    //     this.excludeTracks = data;
-    //     this.updateSchedule();
-    //   }
-    // });
+    actionSheet.present();
   }
 }

@@ -9,6 +9,8 @@ import { AlertController, App, ItemSliding, List, ModalController, NavController
 // import moment from 'moment';
 
 import { BankDetailPage } from './bank-detail/bank-detail';
+import { GmapBankPage } from './gmap-bank/gmap-bank';
+import { TransactionTabPage } from './transaction_tab/transaction_tab';
 import { NewBankPage } from './new_bank/new_bank';
 import { NotificationPage } from '../notification/notification'
 // import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
@@ -93,7 +95,7 @@ export class BankPage {
   goToBankDetail(bankData) {
     // go to the bank detail page
     // and pass in the bank data
-    this.navCtrl.push(BankDetailPage, bankData);
+    this.navCtrl.push(TransactionTabPage, bankData);
   }
 
   addFavorite(slidingItem: ItemSliding, bankData) {
