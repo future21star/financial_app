@@ -11,6 +11,7 @@ import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { NotificationPage } from '../pages/notification/notification'
 import { TabsPage } from '../pages/tabs/tabs';
+import { BankPage } from '../pages/bank/bank';
 
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
@@ -40,7 +41,7 @@ export class MyApp {
   ];
   loggedInPages: PageInterface[] = [
     { title: 'Notification', component: NotificationPage, icon: 'help'},
-    { title: 'Bank', component: TabsPage, icon: 'calendar' },
+    { title: 'Bank', component: BankPage, icon: 'calendar' },
     { title: 'Logout', component: LoginPage, icon: 'log-out', logsOut: true }
     // { title: 'Account', component: AccountPage, icon: 'person' },
     // { title: 'Support', component: SupportPage, icon: 'help' },
@@ -62,7 +63,7 @@ export class MyApp {
     this.initializeApp();
     this.rootPage = LoginPage;
     this.userData.hasLoggedIn().then((hasLoggedIn) => {
-      if (hasLoggedIn) this.rootPage = TabsPage;
+      if (hasLoggedIn) this.rootPage = BankPage;
       else this.rootPage = LoginPage;
       this.enableMenu(hasLoggedIn === true);
     })

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef  } from '@angular/core';
 import { NavParams } from 'ionic-angular';
 
 import { ActionSheet, ActionSheetController, Config, NavController } from 'ionic-angular';
@@ -7,6 +7,9 @@ import { InAppBrowser } from 'ionic-native';
 import { ConferenceData } from '../../../providers/conference-data';
 import { DataService } from '../../../services/data_service';
 
+import { Platform } from 'ionic-angular';
+
+declare var google;
 
 @Component({
   selector: 'page-bank-detail',
@@ -17,6 +20,8 @@ export class BankDetailPage {
   speakers = [];
   bank: any;
   transaction_history: any;
+  @ViewChild('mapCanvas') mapElement: ElementRef;
+  map: any;
 
   constructor(
     public actionSheetCtrl: ActionSheetController, 
@@ -24,7 +29,8 @@ export class BankDetailPage {
     public confData: ConferenceData, 
     public config: Config,
     public dataService: DataService,    
-    public navParams: NavParams) 
+    public navParams: NavParams,
+    public platform: Platform) 
   {
     this.bank = navParams.data;
   }

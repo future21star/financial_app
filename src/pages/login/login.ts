@@ -5,6 +5,7 @@ import { DataService } from '../../services/data_service';
 
 import { SignupPage } from '../signup/signup';
 import { TabsPage } from '../tabs/tabs';
+import { BankPage } from '../bank/bank';
 import { UserData } from '../../providers/user-data';
 import 'rxjs/Rx'; 
 import { Storage } from '@ionic/storage';
@@ -43,7 +44,7 @@ export class LoginPage {
                 if (user)
                 {
                     this.userData.login(user).then(() => {
-                      this.navCtrl.push(TabsPage);
+                      this.navCtrl.push(BankPage);
                     });
                 }
                 else
