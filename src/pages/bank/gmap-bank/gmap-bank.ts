@@ -6,7 +6,7 @@ import { InAppBrowser } from 'ionic-native';
 
 import { ConferenceData } from '../../../providers/conference-data';
 import { DataService } from '../../../services/data_service';
-
+import { UserData } from '../../../providers/user-data';
 import { Platform } from 'ionic-angular';
 
 declare var google;
@@ -28,6 +28,7 @@ export class GmapBankPage {
     public navCtrl: NavController, 
     public confData: ConferenceData, 
     public config: Config,
+    public userData: UserData,
     public dataService: DataService,    
     public navParams: NavParams,
     public platform: Platform) 
@@ -36,16 +37,16 @@ export class GmapBankPage {
   }
 
   ionViewDidLoad() {
-    this.confData.getSpeakers().subscribe(speakers => {
-      this.speakers = speakers;
-    });
-    this.dataService.getTransactionHistory(this.bank.access_token).subscribe(
-      data => {
-        this.transaction_history = data;
-        this.loadBank();
-        console.log("transaction history", data);
+    this.userData.getUsername().then(user => {
+      this.dataService.getTransactionHistory(this.bank.access_token, JSON.parse(user)["_id"]).subscribe(
+        data => {
+          this.transaction_history = data;
+          this.loadBank();
+          console.log("transaction history", data);
+      });
     });
   }
+  
 
   loadBank() {
     // let latLng = new google.maps.LatLng(-34.9290, 138.6010);
@@ -94,29 +95,30 @@ export class GmapBankPage {
         zoom: 16
       });
       console.log("-----------------------------mapData---------------------------", mapData);
-      this.transaction_history.forEach(markerData => {
-        if (markerData["meta"]["location"]["coordinates"]){
-          let infoWindow = new google.maps.InfoWindow({
-            content: `<h5>${markerData["_account"]}</h5>`
-          });
-          let lat = markerData["meta"]["location"]["coordinates"]["lat"];
-          let lon = markerData["meta"]["location"]["coordinates"]["lon"];
-          let pos = {
-            "lat": lat,
-            "lng": lon
-          };
-          let marker = new google.maps.Marker({
-            position: pos,
-            map: map,
-            title: markerData["_account"]
-          });
+      if (this.transaction_history) {
+        this.transaction_history.forEach(markerData => {
+          if (markerData["meta"]["location"]["coordinates"]){
+            let infoWindow = new google.maps.InfoWindow({
+              content: `<h5>${markerData["_account"]}</h5>`
+            });
+            let lat = markerData["meta"]["location"]["coordinates"]["lat"];
+            let lon = markerData["meta"]["location"]["coordinates"]["lon"];
+            let pos = {
+              "lat": lat,
+              "lng": lon
+            };
+            let marker = new google.maps.Marker({
+              position: pos,
+              map: map,
+              title: markerData["_account"]
+            });
 
-          marker.addListener('click', () => {
-            infoWindow.open(map, marker);
-          });
-        }
-      });
-
+            marker.addListener('click', () => {
+              infoWindow.open(map, marker);
+            });
+          }
+        });        
+      }
       google.maps.event.addListenerOnce(map, 'idle', () => {
         mapEle.classList.add('show-map');
       });

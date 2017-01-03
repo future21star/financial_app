@@ -52,7 +52,8 @@ export class NewBankPage {
             // ---------------------- case for mfa question --------------------------
             this.navCtrl.push(MfaQuestionPage, JSON.parse(data["_body"]));
           } else {
-            this.navCtrl.push(BankPage);
+            // this.navCtrl.push(BankPage);
+            this.navCtrl.setRoot(BankPage);
           }
         },
         err => {

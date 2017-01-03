@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Transaction</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item-divider sticky>
+    <h4>
+      amount:  ${{ transaction["amount"] }}
+    </h4>
+  </ion-item-divider>
+  <ion-item-divider sticky>
+    <p>
+      name: {{ transaction["name"] }}
+    </p>
+  </ion-item-divider>  
+  <ion-item-divider sticky>
+    <p>account:  {{transaction["_account"]}}</p>
+  </ion-item-divider>
+  <ion-item-divider sticky>
+    <p>
+      date: {{ transaction["date"] }}
+    </p>
+  </ion-item-divider>
+</ion-content>

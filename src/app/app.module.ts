@@ -13,6 +13,7 @@ import { BankPage } from '../pages/bank/bank';
 import { GmapBankPage } from '../pages/bank/gmap-bank/gmap-bank';
 import { BankDetailPage } from '../pages/bank/bank-detail/bank-detail';
 import { TransactionTabPage } from '../pages/bank/transaction_tab/transaction_tab';
+import { TransactionDetailPage } from '../pages/bank/transaction_detail/transaction_detail';
 import { NewBankPage } from '../pages/bank/new_bank/new_bank';
 import { MfaQuestionPage } from '../pages/bank/mfa_question/mfa_question'
 import { TabsPage } from '../pages/tabs/tabs';
@@ -35,6 +36,7 @@ import { SearchPipe } from '../pipes/search.pipe';
     GmapBankPage,
     BankDetailPage,
     TransactionTabPage,
+    TransactionDetailPage,
     MfaQuestionPage,
     NewBankPage,
     TabsPage,
@@ -57,6 +59,7 @@ import { SearchPipe } from '../pipes/search.pipe';
     GmapBankPage,
     BankDetailPage,
     TransactionTabPage,
+    TransactionDetailPage,
     MfaQuestionPage,
     NewBankPage,
     TabsPage,

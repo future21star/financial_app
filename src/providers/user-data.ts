@@ -56,7 +56,7 @@ export class UserData {
 
   getUsername() {
     return this.storage.get('username').then((value) => {
-      console.log(value);
+      console.log("getusername", value);
       return value;
     });
   };

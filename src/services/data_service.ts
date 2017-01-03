@@ -4,8 +4,8 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 let deployed_server_url = "https://server-for-financial-app-warzi117.c9users.io";
 let local_server_url = "http://localhost:3000";
-let current_url = deployed_server_url;
-// let current_url = local_server_url;
+// let current_url = deployed_server_url;
+let current_url = local_server_url;
 @Injectable()
 export class DataService {  
 
@@ -59,9 +59,8 @@ export class DataService {
         return this.http.get('assets/data/banks.json').map(res => res.json());
     }
 
-    getTransactionHistory(access_token) {
-        // return this.http.get(`${current_url}/transaction/${bank_id}`).map(res => res.json());
-        return this.http.get(`${current_url}/bank/get_transactions/${access_token}`).map(res => res.json());
+    getTransactionHistory(access_token, user_id=null) {
+        return this.http.get(`${current_url}/bank/get_transactions/${access_token}/${user_id}`).map(res => res.json());
     }
 
     getAvailableFinancialInstitutions() {

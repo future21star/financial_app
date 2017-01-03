@@ -4,7 +4,9 @@ import { NavParams } from 'ionic-angular';
 import { ActionSheet, ActionSheetController, Config, NavController } from 'ionic-angular';
 import { InAppBrowser } from 'ionic-native';
 
+import { TransactionDetailPage } from '../transaction_detail/transaction_detail';
 import { ConferenceData } from '../../../providers/conference-data';
+import { UserData } from '../../../providers/user-data';
 import { DataService } from '../../../services/data_service';
 
 import { Platform } from 'ionic-angular';
@@ -27,6 +29,7 @@ export class BankDetailPage {
     public actionSheetCtrl: ActionSheetController, 
     public navCtrl: NavController, 
     public confData: ConferenceData, 
+    public userData: UserData,
     public config: Config,
     public dataService: DataService,    
     public navParams: NavParams,
@@ -36,13 +39,12 @@ export class BankDetailPage {
   }
 
   ionViewDidLoad() {
-    this.confData.getSpeakers().subscribe(speakers => {
-      this.speakers = speakers;
-    });
-    this.dataService.getTransactionHistory(this.bank.access_token).subscribe(
-      data => {
-        this.transaction_history = data;
-        console.log("transaction history", data);
+    this.userData.getUsername().then(user => {
+      this.dataService.getTransactionHistory(this.bank.access_token, JSON.parse(user)["_id"]).subscribe(
+        data => {
+          this.transaction_history = data;
+          console.log("transaction history", data);
+      });
     });
   }
 
@@ -54,6 +56,9 @@ export class BankDetailPage {
     // this.navCtrl.push(SpeakerDetailPage, speakerName);
   }
 
+  goToTransactionDetail(transaction: any) {
+    this.navCtrl.push(TransactionDetailPage, transaction);
+  }
   goToSpeakerTwitter(speaker) {
     new InAppBrowser(`https://twitter.com/${speaker.twitter}`, '_blank');
   }
