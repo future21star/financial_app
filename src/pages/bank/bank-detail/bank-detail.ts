@@ -21,7 +21,8 @@ export class BankDetailPage {
   actionSheet: ActionSheet;
   speakers = [];
   bank: any;
-  transaction_history: any;
+  transaction_group = {};
+  dates = [];
   @ViewChild('mapCanvas') mapElement: ElementRef;
   map: any;
 
@@ -42,8 +43,16 @@ export class BankDetailPage {
     this.userData.getUsername().then(user => {
       this.dataService.getTransactionHistory(this.bank.access_token, JSON.parse(user)["_id"]).subscribe(
         data => {
-          this.transaction_history = data;
-          console.log("transaction history", data);
+          this.dates = [];
+          this.transaction_group = {};
+          for (let transaction of data) {
+            let date = transaction["date"];
+            if (!this.transaction_group[date]) {
+              this.transaction_group[date] = [];
+              this.dates.push(date);
+            }
+            this.transaction_group[date].push(transaction);              
+          }
       });
     });
   }

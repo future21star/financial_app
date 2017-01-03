@@ -4,8 +4,8 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 let deployed_server_url = "https://server-for-financial-app-warzi117.c9users.io";
 let local_server_url = "http://localhost:3000";
-// let current_url = deployed_server_url;
-let current_url = local_server_url;
+let current_url = deployed_server_url;
+// let current_url = local_server_url;
 @Injectable()
 export class DataService {  
 

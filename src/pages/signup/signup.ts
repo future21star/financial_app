@@ -39,7 +39,7 @@ export class SignupPage {
                       // this.userData.getUsername().then(data => {
                       //   console.log("sign up", data);
                       // });
-                      this.navCtrl.push(NewBankPage);
+                      this.navCtrl.setRoot(NewBankPage);
                     });
                 }
                 else

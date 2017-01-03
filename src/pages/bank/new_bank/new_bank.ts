@@ -7,7 +7,8 @@ import { UserData } from '../../../providers/user-data';
 
 import { TabsPage } from '../../tabs/tabs';
 import { BankPage } from '../bank';
-import { MfaQuestionPage } from '../mfa_question/mfa_question'
+import { MfaQuestionPage } from '../mfa_question/mfa_question';
+import { TransactionTabPage } from '../transaction_tab/transaction_tab';
 
 @Component({
   selector: 'page-new-bank',
@@ -53,7 +54,7 @@ export class NewBankPage {
             this.navCtrl.push(MfaQuestionPage, JSON.parse(data["_body"]));
           } else {
             // this.navCtrl.push(BankPage);
-            this.navCtrl.setRoot(BankPage);
+            this.navCtrl.setRoot(TransactionTabPage);
           }
         },
         err => {
@@ -64,6 +65,6 @@ export class NewBankPage {
   }
 
   onCancel() {
-    this.navCtrl.push(BankPage);
+    this.navCtrl.setRoot(TransactionTabPage);
   }
 }

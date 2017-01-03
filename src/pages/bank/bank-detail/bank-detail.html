@@ -7,25 +7,26 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="bank-detail">
     <ion-list #transactionList>
-
-    <ion-item-group *ngFor="let transaction of transaction_history">
+    <ion-item-group *ngFor="let date of dates" [hidden]="dates.length === 0">
       <ion-item-divider sticky>
         <ion-label>
-          {{transaction["date"]}}
+          {{date}}
         </ion-label>
       </ion-item-divider>
-      <ion-item-sliding #slidingItem [attr.track]="transaction['name'] | lowercase" >
-        <button ion-item (click)="goToTransactionDetail(transaction)">
-          <h3>{{transaction["name"]}}</h3>
-          <p>
-            ${{transaction["amount"]}}
-          </p>
-        </button>
+      <ion-item-sliding *ngFor="let transaction of transaction_group[date]" #slidingItem [attr.track]="transaction['name'] | lowercase" >
+          <button ion-item (click)="goToTransactionDetail(transaction)">
+            <h3>{{transaction["name"]}}</h3>
+            <p class='plus-amount' *ngIf='transaction["amount"] > 0'>
+              ${{transaction["amount"]}}
+            </p>
+            <p class='minus-amount' *ngIf='transaction["amount"] < 0'>
+              ${{transaction["amount"]}}
+            </p>
+          </button>
       </ion-item-sliding>
-    </ion-item-group>
-
+    </ion-item-group>      
   </ion-list>
 
   <!--<ion-card *ngFor="let transaction of transaction_history" class="speaker-card">

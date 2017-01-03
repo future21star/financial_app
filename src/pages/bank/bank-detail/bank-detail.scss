@@ -23,10 +23,22 @@ page-schedule {
    }
   }
 }
-ion-item-sliding ion-label{
-  border-left: 2px solid red;
-  padding-left: 10px;
-  p {
-    float:right;
+.bank-detail {
+  ion-item-sliding{
+    // border-left: 2px solid red;
+    padding-left: 10px;
+    p {
+      float:right;
+    }
+    .plus-amount {
+      color: green !important;
+    }
+    border-bottom: 2px solid grey !important;
   }
+  ion-item-divider{
+    background-color: grey !important;
+    color: black !important;
+    text-align: center;
+  }
+  
 }
